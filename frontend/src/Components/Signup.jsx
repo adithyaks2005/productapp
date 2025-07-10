@@ -1,0 +1,96 @@
+import { Padding } from '@mui/icons-material'
+import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
+const Signup = () => {
+    var[inputs,setInputs] = useState({})
+    var navigate = useNavigate();
+    const inputHandler = (e)=>{
+        console.log(e)
+        setInputs({...inputs,[e.target.name]:e.target.value})
+        console.log(inputs)
+
+    }
+    const addData = ()=>{
+        axios
+        .post("http://localhost:3000/api",inputs)
+        .then((res)=>{console.log(res)
+            alert(res.data.message);
+            navigate('/')
+        })
+        .catch((err)=>{console.log(err)})
+
+    }
+  return (
+    <div>
+      <Container maxWidth='sm'>
+        <Box
+             sx={{
+                Padding:4,
+                backgroundColor:'wheat',
+                borderRadius:2,
+                marginTop:14,
+                boxShadow:3,
+                textAlign:'center'
+ 
+            }} 
+            >
+           
+<Typography variant='h4'>Welcome To ProductApp</Typography>
+<form>
+    <TextField
+        fullWidth
+        label='Full Name'
+        margin='normal'
+        color='secondary'
+        name='fullname'
+        onChange={inputHandler}
+        />
+    
+    <TextField
+        fullWidth
+        label='Username'
+        margin='normal'
+        color='secondary'
+        name='username'
+        onChange={inputHandler}
+
+        />
+
+    <TextField
+        fullWidth
+        label='Password'
+        margin='normal'
+        color='secondary'
+        name='password'
+        onChange={inputHandler}
+        />
+    
+    <Button
+    variant='contained'
+    color='secondary'
+    fullWidth
+    sx={{mt:2}}
+    onClick={addData}
+    >
+        Signup
+
+    </Button>
+
+</form><br /><br />
+<p>
+    <Link to={'/'}>
+    Already have an account?
+    </Link>
+</p>
+        </Box>
+
+
+      </Container>
+    </div>
+  )
+}
+
+export default Signup
