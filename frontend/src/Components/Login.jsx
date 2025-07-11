@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import {Box, Button, Container, TextField, Typography} from '@mui/material'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 const Login = () => {
   var[user,setuser] =useState({})
+  var navigate = useNavigate()
    const inputHandler = (e)=>{
-
+         const baseURl = import.meta.env.VITE_API_BASE_URL
+         
         setuser({...user,[e.target.name]:e.target.value})
         console.log(user)
 
@@ -14,7 +16,9 @@ const Login = () => {
       axios
       .post("http://localhost:3000/api/login",user)
     .then((res)=>{console.log(res)
+      sessionStorage.setItem("role",res.data.user.role)
       alert(res.data.message)
+      navigate('/p')
     })    
       .catch((err)=>{console.log(err)})  
 }
